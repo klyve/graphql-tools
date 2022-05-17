@@ -3,7 +3,7 @@ import { GraphQLSchema, BuildSchemaOptions, Source as GraphQLSource, print, lexi
 import { OPERATION_KINDS } from './documents';
 import { mergeSchemas, MergeSchemasConfig } from '@graphql-tools/schema';
 import { getResolversFromSchema, IResolvers, Source, TypeSource } from '@graphql-tools/utils';
-import { extractExtensionsFromSchema, mergeTypeDefs, SchemaExtensions } from '@graphql-tools/merge';
+import { extractExtensionsFromSchema, SchemaExtensions } from '@graphql-tools/merge';
 
 export type LoadSchemaOptions = BuildSchemaOptions &
   LoadTypedefsOptions &
