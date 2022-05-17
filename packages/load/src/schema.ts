@@ -1,13 +1,13 @@
 import { loadTypedefs, LoadTypedefsOptions, UnnormalizedTypeDefPointer, loadTypedefsSync } from './load-typedefs';
 import { GraphQLSchema, BuildSchemaOptions, Source as GraphQLSource, print, lexicographicSortSchema } from 'graphql';
 import { OPERATION_KINDS } from './documents';
-import { IExecutableSchemaDefinition, makeExecutableSchema } from '@graphql-tools/schema';
+import { mergeSchemas, MergeSchemasConfig } from '@graphql-tools/schema';
 import { getResolversFromSchema, IResolvers, Source, TypeSource } from '@graphql-tools/utils';
 import { extractExtensionsFromSchema, mergeTypeDefs, SchemaExtensions } from '@graphql-tools/merge';
 
 export type LoadSchemaOptions = BuildSchemaOptions &
   LoadTypedefsOptions &
-  Partial<IExecutableSchemaDefinition> & {
+  Partial<MergeSchemasConfig> & {
     /**
      * Adds a list of Sources in to `extensions.sources`
      *
@@ -32,9 +32,9 @@ export async function loadSchema(
 
   const { typeDefs, resolvers, schemaExtensions } = collectSchemaParts(sources);
 
-  const schema = makeExecutableSchema({
+  const schema = mergeSchemas({
     ...options,
-    typeDefs: mergeTypeDefs(typeDefs, options),
+    typeDefs,
     resolvers,
     schemaExtensions,
   });
@@ -62,9 +62,9 @@ export function loadSchemaSync(
 
   const { typeDefs, resolvers, schemaExtensions } = collectSchemaParts(sources);
 
-  const schema = makeExecutableSchema({
+  const schema = mergeSchemas({
     ...options,
-    typeDefs: mergeTypeDefs(typeDefs, options),
+    typeDefs,
     resolvers,
     schemaExtensions,
   });
