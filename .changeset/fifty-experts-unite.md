@@ -2,6 +2,8 @@
 '@graphql-tools/schema': major
 ---
 
+Thanks @mattkrick and @borisno2!
+
 `addResolversToSchema`;
 
 If you are using the legacy parameters like below, you should update them to the new usage. Other than that, there is no functional change;
