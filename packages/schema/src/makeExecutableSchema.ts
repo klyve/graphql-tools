@@ -54,11 +54,11 @@ export function makeExecutableSchema<TContext = any>({
   typeDefs,
   resolvers = {},
   resolverValidationOptions = {},
-  parseOptions = {},
   inheritResolversFromInterfaces = false,
   pruningOptions,
   updateResolversInPlace = false,
   schemaExtensions,
+  ...otherOptions
 }: IExecutableSchemaDefinition<TContext>) {
   // Validate and clean up arguments
   if (typeof resolverValidationOptions !== 'object') {
@@ -73,15 +73,15 @@ export function makeExecutableSchema<TContext = any>({
 
   if (isSchema(typeDefs)) {
     schema = typeDefs;
-  } else if (parseOptions?.commentDescriptions) {
+  } else if (otherOptions?.commentDescriptions) {
     const mergedTypeDefs = mergeTypeDefs(typeDefs, {
-      ...parseOptions,
+      ...otherOptions,
       commentDescriptions: true,
     });
-    schema = buildSchema(mergedTypeDefs, parseOptions);
+    schema = buildSchema(mergedTypeDefs, otherOptions);
   } else {
-    const mergedTypeDefs = mergeTypeDefs(typeDefs, parseOptions);
-    schema = buildASTSchema(mergedTypeDefs, parseOptions);
+    const mergedTypeDefs = mergeTypeDefs(typeDefs, otherOptions);
+    schema = buildASTSchema(mergedTypeDefs, otherOptions);
   }
 
   if (pruningOptions) {

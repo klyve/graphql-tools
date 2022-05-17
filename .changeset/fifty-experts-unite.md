@@ -49,3 +49,19 @@ mergeSchemas({
 })
 ```
 
+`makeExecutableSchema` no longer takes `parseOptions` and you can pass those options directly;
+
+```ts
+makeExecutableSchema({
+  typeDefs: ``,
+  parseOptions: {
+    assumeValid: true,
+  }
+})
+
+// After
+makeExecutableSchema({
+  typeDefs: ``,
+    assumeValid: true,
+})
+```
