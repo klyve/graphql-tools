@@ -15,12 +15,11 @@ import { applyExtensions, mergeExtensions, mergeResolvers, mergeTypeDefs } from 
  * of these. If a function is provided, it will be passed no arguments and
  * should return an array of strings or `DocumentNode`s.
  *
- * Note: You can use `graphql-tag` to not only parse a string into a
- * `DocumentNode` but also to provide additional syntax highlighting in your
- * editor (with the appropriate editor plugin).
+ * Note: You can use GraphQL magic comment provide additional syntax
+ * highlighting in your editor (with the appropriate editor plugin).
  *
  * ```js
- * const typeDefs = gql`
+ * const typeDefs = /* GraphQL *\/ `
  *   type Query {
  *     posts: [Post]
  *     author(id: Int!): Author
