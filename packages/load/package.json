@@ -36,6 +36,7 @@
   "dependencies": {
     "@graphql-tools/utils": "8.6.12",
     "@graphql-tools/schema": "8.3.13",
+    "@graphql-tools/merge": "8.2.13",
     "p-limit": "3.1.0",
     "tslib": "~2.4.0"
   },
