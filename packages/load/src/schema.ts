@@ -1,7 +1,7 @@
 import { loadTypedefs, LoadTypedefsOptions, UnnormalizedTypeDefPointer, loadTypedefsSync } from './load-typedefs';
 import { GraphQLSchema, BuildSchemaOptions, Source as GraphQLSource, print, lexicographicSortSchema } from 'graphql';
 import { OPERATION_KINDS } from './documents';
-import { makeExecutableSchema, IExecutableSchemaDefinition } from '@graphql-tools/schema';
+import { IExecutableSchemaDefinition, mergeSchemas } from '@graphql-tools/schema';
 import { getResolversFromSchema, IResolvers, Source, TypeSource } from '@graphql-tools/utils';
 import { extractExtensionsFromSchema, SchemaExtensions } from '@graphql-tools/merge';
 
@@ -29,21 +29,7 @@ export async function loadSchema(
     ...options,
     filterKinds: OPERATION_KINDS,
   });
-
-  const { typeDefs, resolvers, schemaExtensions } = collectSchemaParts(sources);
-
-  const schema = makeExecutableSchema({
-    ...options,
-    typeDefs,
-    resolvers,
-    schemaExtensions,
-  });
-
-  if (options?.includeSources) {
-    includeSources(schema, sources);
-  }
-
-  return options.sort ? lexicographicSortSchema(schema) : schema;
+  return getSchemaFromSources(sources, options);
 }
 
 /**
@@ -59,21 +45,7 @@ export function loadSchemaSync(
     filterKinds: OPERATION_KINDS,
     ...options,
   });
-
-  const { typeDefs, resolvers, schemaExtensions } = collectSchemaParts(sources);
-
-  const schema = makeExecutableSchema({
-    ...options,
-    typeDefs,
-    resolvers,
-    schemaExtensions,
-  });
-
-  if (options?.includeSources) {
-    includeSources(schema, sources);
-  }
-
-  return options.sort ? lexicographicSortSchema(schema) : schema;
+  return getSchemaFromSources(sources, options);
 }
 
 function includeSources(schema: GraphQLSchema, sources: Source[]) {
@@ -90,6 +62,23 @@ function includeSources(schema: GraphQLSchema, sources: Source[]) {
     sources: finalSources,
     extendedSources: sources,
   };
+}
+
+function getSchemaFromSources(sources: Source[], options: LoadSchemaOptions) {
+  const { typeDefs, resolvers, schemaExtensions } = collectSchemaParts(sources);
+
+  const schema = mergeSchemas({
+    ...options,
+    typeDefs,
+    resolvers,
+    schemaExtensions,
+  });
+
+  if (options?.includeSources) {
+    includeSources(schema, sources);
+  }
+
+  return options.sort ? lexicographicSortSchema(schema) : schema;
 }
 
 function collectSchemaParts(sources: Source[]) {
