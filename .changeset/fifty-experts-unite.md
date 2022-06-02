@@ -10,13 +10,13 @@ If you are using the legacy parameters like below, you should update them to the
 
 ```ts
 // From
-addResolversToSchema(schema, resolvers, resolverValidationOptions);
+addResolversToSchema(schema, resolvers, resolverValidationOptions)
 
 // To
 addResolversToSchema({
   schema,
   resolvers,
-  resolverValidationOptions,
+  resolverValidationOptions
 })
 ```
 
@@ -25,6 +25,7 @@ addResolversToSchema({
 The provided `resolver` overrides the resolvers in the `schema` with the same name;
 
 The `hello` resolver in the `schema` would be overridden by the `hello` resolver in the `resolvers`. Before it was opposite which is not expected.
+
 ```ts
 const schema = makeExecutableSchema({
   typeDefs: `
@@ -34,17 +35,17 @@ const schema = makeExecutableSchema({
   `,
   resolvers: {
     Query: {
-      hello: () => 'Hello world!',
-    },
-  },
-});
+      hello: () => 'Hello world!'
+    }
+  }
+})
 
 mergeSchemas({
   schemas: [schema],
   resolvers: {
     Query: {
-      hello: () => 'New hello world',
-    },
+      hello: () => 'New hello world'
+    }
   }
 })
 ```
@@ -55,13 +56,13 @@ mergeSchemas({
 makeExecutableSchema({
   typeDefs: ``,
   parseOptions: {
-    assumeValid: true,
+    assumeValid: true
   }
 })
 
 // After
 makeExecutableSchema({
   typeDefs: ``,
-    assumeValid: true,
+  assumeValid: true
 })
 ```

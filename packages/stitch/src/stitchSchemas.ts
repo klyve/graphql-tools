@@ -36,10 +36,10 @@ export function stitchSchemas<TContext extends Record<string, any> = Record<stri
   resolvers = {},
   inheritResolversFromInterfaces = false,
   resolverValidationOptions = {},
-  parseOptions = {},
   pruningOptions,
   updateResolversInPlace,
   schemaExtensions,
+  ...rest
 }: IStitchSchemasOptions<TContext>): GraphQLSchema {
   if (typeof resolverValidationOptions !== 'object') {
     throw new Error('Expected `resolverValidationOptions` to be an object');
@@ -92,7 +92,7 @@ export function stitchSchemas<TContext extends Record<string, any> = Record<stri
     originalSubschemaMap,
     types,
     typeDefs: typeDefs || [],
-    parseOptions,
+    parseOptions: rest,
     extensions,
     directiveMap,
     schemaDefs,
